@@ -1,72 +1,76 @@
-#include&lt;time.h&gt;
-#include&lt;stdio.h&gt;
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
 #define MAX 5000
-void quicksort(int[],int,int);
-int partition(int[],int,int);
-void main()
-{
-int i,n,a[MAX],ch;
-clock_t start,end;
-clrscr();
-while(ch)
-{
-printf(&quot;\n enter the number of elements\n&quot;);
-scanf(&quot;%d&quot;,&amp;n);
-for(i=0;i&lt;n;i++)
-a[i]=rand()%200;
-printf(&quot;The random generated array is\n&quot;);
-for(i=0;i&lt;n;i++)
-printf(&quot; %d&quot;,a[i]);
-start=clock();
-quicksort(a,0,n-1);
-end=clock();
-printf(&quot;\n\nthe sorted array elements are\n\n&quot;);
-for(i=0;i&lt;n;i++)
-printf(&quot;%d\n&quot;,a[i]);
-printf(&quot;time taken = %f&quot;,(end-start)/CLK_TCK);
-printf(&quot;\n\n do u wish to continue (0/1)\n&quot;);
-scanf(&quot;%d&quot;,&amp;ch);
-}
-}
-void quicksort(int a[],int low,int high)
-{
-int mid;
-delay(500);
-if(low&lt;high)
-{
-mid=partition(a,low,high);
-quicksort(a,low,mid-1);
-quicksort(a,mid+1,high);
 
-}
-}
-int partition(int a[],int low,int high)
-{
-int key,i,j,temp,k;
-key=a[low];
-i=low+1;
+void quicksort(int[], int, int);
+int partition(int[], int, int);
 
-j=high;
-while(i&lt;=j)
-{
-while(i&lt;=high &amp;&amp; key&gt;=a[i])
-i=i+1;
-while(key&lt;a[j])
-j=j-1;
-if(i&lt;j)
-{
-temp=a[i];
-a[i]=a[j];
-a[j]=temp;
+int main() {
+    int i, n, a[MAX], ch = 1;
+    clock_t start, end;
+
+    while (ch) {
+        printf("\nEnter the number of elements: ");
+        scanf("%d", &n);
+
+        for (i = 0; i < n; i++)
+            a[i] = rand() % 200;
+
+        printf("The randomly generated array is:\n");
+        for (i = 0; i < n; i++)
+            printf("%d ", a[i]);
+
+        start = clock();
+        quicksort(a, 0, n - 1);
+        end = clock();
+
+        printf("\n\nThe sorted array elements are:\n");
+        for (i = 0; i < n; i++)
+            printf("%d ", a[i]);
+
+        double time_taken = (double)(end - start) / CLOCKS_PER_SEC;
+        printf("\nTime taken = %f seconds", time_taken);
+
+        printf("\n\nDo you wish to continue? (1 for yes / 0 for no): ");
+        scanf("%d", &ch);
+    }
+
+    return 0;
 }
-else
-{
-k=a[j];
-a[j]=a[low];
-a[low]=k;
+
+void quicksort(int a[], int low, int high) {
+    int mid;
+    if (low < high) {
+        mid = partition(a, low, high);
+        quicksort(a, low, mid - 1);
+        quicksort(a, mid + 1, high);
+    }
 }
-}
-return j;
+
+int partition(int a[], int low, int high) {
+    int key = a[low];
+    int i = low + 1;
+    int j = high;
+    int temp;
+
+    while (i <= j) {
+        while (i <= high && a[i] <= key)
+            i++;
+        while (a[j] > key)
+            j--;
+        if (i < j) {
+            temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;
+        } else {
+            temp = a[j];
+            a[j] = a[low];
+            a[low] = temp;
+        }
+    }
+    return j;
 }
 
 OUTPUT:
